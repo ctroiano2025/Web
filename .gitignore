@@ -1,0 +1,29 @@
+ # -------------------------------------------------------------------
+# Dependências e Builds
+# -------------------------------------------------------------------
+/node_modules # Pasta de dependências do Node.js/NPM (não deve ser commitada)
+/dist         # Pasta de distribuição (se usar Webpack, Vite, etc.)
+/build        # Pasta de build/compilação
+
+# -------------------------------------------------------------------
+# Arquivos de Sistema e de Editor (VS Code/Outros)
+# -------------------------------------------------------------------
+.DS_Store     # Arquivos de sistema do macOS
+Thumbs.db     # Arquivos de sistema do Windows
+.vscode/      # Configurações de workspace do VS Code (opcional: ignora configurações de debug, etc.)
+*.sublime-project
+*.sublime-workspace
+
+# -------------------------------------------------------------------
+# Arquivos de Log e Cache
+# -------------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# -------------------------------------------------------------------
+# Arquivos de Credenciais e Ambiente (CRÍTICO para segurança)
+# -------------------------------------------------------------------
+.env          # Arquivo de variáveis de ambiente (onde ficam senhas do MySQL, chaves de API, etc.)
+.env.*
