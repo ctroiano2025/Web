@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALÃO DE BELEZA "DETALHES DE MULHER"</title>
+    
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header>
+        <h1>SALÃO DE BELEZA "DETALHES DE MULHER" - Agendamento</h1>
+    </header>
+
+    <main>
+        <section id="servico-selecao">
+            <h2>1. Escolha o Serviço</h2>
+            <select id="select-servico">
+                <option value="">Selecione um Serviço</option>
+            </select>
+        </section>
+
+        <section id="profissional-selecao" style="display:none;"> 
+            <h2>2. Escolha o Profissional</h2>
+            <select id="select-profissional">
+                <option value="">Selecione um Profissional</option>
+            </select>
+        </section>
+
+        <section id="horario-selecao" style="display:none;">
+            <h2>3. Escolha a Data e Hora</h2>
+            <input type="date" id="input-data">
+            <div id="horarios-disponiveis">
+            </div>
+        </section>
+        
+        <section id="cliente-dados" style="display:none;">
+            <h2>4. Seus Dados</h2>
+            <form id="form-agendamento">
+                <input type="text" id="nome-cliente" placeholder="Seu Nome Completo" required>
+                <input type="tel" id="telefone-cliente" placeholder="Seu Telefone" required>
+                <input type="email" id="email-cliente" placeholder="Seu E-mail (Opcional)">
+                <button type="submit">Confirmar Agendamento</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Detalhes de Mulher</p>
+    </footer>
+
+    <script src="man.js"></script>
+
+</body>
+</html>
