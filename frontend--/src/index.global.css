@@ -1,0 +1,234 @@
+/* src/index.css - CSS Puro */
+
+/* Estilos Globais de Reset e Fundo */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9; /* Fundo cinza claro */
+    color: #333;
+}
+
+/* Container Principal (equivalente ao max-w-6xl mx-auto) */
+.container-principal {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
+/* Estilos para o Cabeçalho */
+.header-titulo {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
+}
+
+.header-titulo h1 {
+    font-size: 3rem; 
+    font-weight: 800; 
+    color: #1e40af; /* Azul forte */
+}
+
+.header-titulo p {
+    color: #6b7280;
+    margin-top: 5px;
+}
+
+/* --- Estilos para o Formulário (form-card) --- */
+
+.form-card {
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border-top: 4px solid #3b82f6; /* Borda azul */
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 10px;
+}
+
+/* Estilo de Grid para os Inputs */
+.form-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão mobile */
+    gap: 16px;
+}
+
+@media (min-width: 768px) { /* A partir de tablets/desktop */
+    .form-row-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* Ajuste para o botão, que precisa de mais espaço na última linha */
+    .form-row-grid:last-child {
+        align-items: end; /* Alinha os itens da última linha ao fundo */
+    }
+}
+
+/* Estilo para Grupos de Input */
+.input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+.input-group input, 
+.input-group select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+/* Botão Principal de Agendamento/Edição */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: white;
+    background-color: #2563eb; /* Azul */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #1d4ed8;
+}
+
+/* Botão de Cancelar Edição (Abaixo do formulário) */
+.btn-cancelar-edicao {
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-cancelar-edicao:hover {
+    background-color: #e5e7eb;
+}
+
+/* --- Estilos para a Lista (Tabela) --- */
+
+.list-container {
+    margin-top: 30px;
+}
+
+.list-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1f2937;
+    margin-bottom: 15px;
+}
+
+.table-wrapper {
+    overflow-x: auto; /* Permite scroll horizontal em telas pequenas */
+}
+
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; 
+}
+
+.list-table th, .list-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.list-table th {
+    background-color: #e0f2fe; /* Azul claro para o cabeçalho */
+    font-size: 0.75rem;
+    color: #4b5563;
+    text-transform: uppercase;
+}
+
+.list-table td {
+    background-color: white;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 0.875rem;
+    color: #1f2937;
+}
+
+.list-table tr:last-child td {
+    border-bottom: none;
+}
+
+.list-table tr:hover td {
+    background-color: #f9fafb;
+}
+
+/* Estilos de Ação (Editar/Excluir) */
+.btn-edit {
+    background: none;
+    border: none;
+    color: #2563eb;
+    margin-right: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Estilos de Mensagem (Sucesso/Erro) */
+.mensagem-box {
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    border: 1px solid transparent;
+}
+
+.mensagem-success {
+    background-color: #d1fae5; /* Verde claro */
+    color: #065f46; /* Verde escuro */
+    border-color: #a7f3d0;
+}
+
+.mensagem-error {
+    background-color: #fee2e2; /* Vermelho claro */
+    color: #991b1b; /* Vermelho escuro */
+    border-color: #fecaca;
+}
+
+.no-data-message {
+    text-align: center;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    font-style: italic;
+    color: #6b7280;
+}

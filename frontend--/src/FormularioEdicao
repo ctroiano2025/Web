@@ -1,0 +1,101 @@
+import React, { useState, useEffect } from 'react';
+
+const FormularioEdicao = ({ agendamento, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(agendamento);
+
+  // Formata a data para o input datetime-local, que exige o formato YYYY-MM-DDTHH:MM
+  const formatDateTime = (isoString) => {
+    if (!isoString) return '';
+    // Pega apenas a parte do ISO string que o input aceita (ex: 2024-05-15T10:30)
+    return isoString.substring(0, 16);
+  };
+
+  useEffect(() => {
+    setFormData({
+      ...agendamento,
+      dataHora: formatDateTime(agendamento.dataHora),
+    });
+  }, [agendamento]);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Garante que a data seja enviada em um formato válido para o Back End, 
+    // mesmo que o input só use o formato local.
+    const dataHoraISO = new Date(formData.dataHora).toISOString();
+    onSave({ ...formData, dataHora: dataHoraISO });
+  };
+
+  return (
+    <div className="formulario-edicao">
+      <h2>Editar Agendamento (ID: {agendamento.idagendamento})</h2>
+      <form onSubmit={handleSubmit}>
+        {/* Campo do Nome do Cliente */}
+        <div className="form-group">
+          <label htmlFor="nomeClienteEdicao">Nome do Cliente:</label>
+          <input
+            type="text"
+            id="nomeClienteEdicao"
+            name="nomeCliente"
+            value={formData.nomeCliente}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        
+        {/* Campo da Data e Hora */}
+        <div className="form-group">
+          <label htmlFor="dataHoraEdicao">Data e Hora:</label>
+          <input
+            type="datetime-local"
+            id="dataHoraEdicao"
+            name="dataHora"
+            value={formData.dataHora}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Campo do Serviço */}
+        <div className="form-group">
+          <label htmlFor="servicoEdicao">Serviço:</label>
+          <input
+            type="text"
+            id="servicoEdicao"
+            name="servico"
+            value={formData.servico}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        {/* Campo do Status */}
+        <div className="form-group">
+          <label htmlFor="statusEdicao">Status:</label>
+          <select
+            id="statusEdicao"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            required
+          >
+            <option value="PENDENTE">PENDENTE</option>
+            <option value="CONFIRMADO">CONFIRMADO</option>
+            <option value="CANCELADO">CANCELADO</option>
+          </select>
+        </div>
+        
+        {/* Botões de Ação */}
+        <div className="form-actions">
+          <button type="submit" className="save-button">Salvar Alterações</button>
+          <button type="button" onClick={onCancel} className="cancel-button">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default FormularioEdicao;

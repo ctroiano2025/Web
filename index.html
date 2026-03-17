@@ -1,49 +1,289 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SALÃO DE BELEZA "DETALHES DE MULHER"</title>
+    <title>Agendamento & Gerenciamento - DETALHES DE MULHER</title>
     
-    <link rel="stylesheet" href="style.css"> 
+    <style>
+        /* Estilos fornecidos no seu HTML original + classes de utilidade para o JS */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .items-center { align-items: center; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .rounded { border-radius: 0.25rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .text-sm { font-size: 0.875rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .gap-4 { gap: 1rem; }
+        .text-center { text-align: center; }
+        .text-gray-500 { color: #6b7280; }
+        .mt-8 { margin-top: 2rem; }
+        .p-4 { padding: 1rem; } 
+        .border { border: 1px solid #ddd; } 
+        .shadow-md { box-shadow: 0 4px 6px rgba(0,0,0,0.1); } 
+        .bg-gray-50 { background-color: #f9fafb; } 
+
+
+        /* Estilos de Alerta/Mensagens */
+        .bg-red-100 { background-color: #fee2e2; }
+        .text-red-700 { color: #b91c1c; }
+        .bg-green-100 { background-color: #d1fae5; }
+        .text-green-700 { color: #065f46; }
+
+        /* Estilos para botões (simulação Tailwind) */
+        .bg-red-500 { background-color: #ef4444; }
+        .bg-blue-500 { background-color: #3b82f6; }
+        .bg-green-600 { background-color: #059669; }
+        .text-white { color: #ffffff; }
+
+        /* Estilos para a nova área de Gerenciamento CRUD */
+        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;}
+        header { background-color: #333; color: white; padding: 20px; text-align: center; }
+        main { max-width: 1000px; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input[type="text"], input[type="password"], input[type="number"], input[type="date"], input[type="time"], button, select { 
+            padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; 
+        }
+        button { cursor: pointer; background-color: #4CAF50; color: white; border: none; padding: 10px 15px; margin-right: 10px; width: auto;}
+        button[type="submit"] { background-color: #007bff; }
+        #btn-logout { background-color: #dc3545; }
+        #client-form button[type="button"], #service-form button[type="button"], #employee-form button[type="button"] { background-color: #6c757d; }
+        
+        .tab-content { padding: 20px; border: 1px solid #ccc; border-top: none; }
+        .tab-pane { display: none; }
+        .tab-pane.active { display: block; }
+        .nav-tabs { display: flex; list-style: none; padding: 0; margin: 0; border-bottom: 1px solid #ccc; }
+        .nav-item { padding: 10px 15px; cursor: pointer; border: 1px solid transparent; border-bottom: none; }
+        .nav-item.active { background-color: #f8f8f8; border-color: #ccc; border-bottom: 1px solid #f8f8f8; }
+        .form-crud { margin-bottom: 20px; padding: 15px; border: 1px solid #eee; background-color: #f9f9f9; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px;}
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        footer { text-align: center; padding: 10px; margin-top: 20px; color: #666; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; } 
+        #agendamento-form .grid { grid-template-columns: repeat(3, 1fr); }
+
+        /* Estilos específicos para a tabela de disponibilidade */
+        #availability-table th, #availability-table td { text-align: center; }
+        #availability-table .text-left { text-align: left; }
+        #availability-table input[type="time"] { width: 90px; margin: 0; }
+        #availability-table input[type="checkbox"] { width: auto; }
+    </style>
 </head>
 <body>
 
     <header>
-        <h1>SALÃO DE BELEZA "DETALHES DE MULHER" - Agendamento</h1>
+        <h1>SALÃO DE BELEZA "DETALHES DE MULHER"</h1>
     </header>
 
     <main>
-        <section id="servico-selecao">
-            <h2>1. Escolha o Serviço</h2>
-            <select id="select-servico">
-                <option value="">Selecione um Serviço</option>
-            </select>
+
+        <section id="login-container"> 
+            <h2>👤 Acesso do Profissional</h2>
+            <form id="form-login">
+                <div>
+                    <label for="username-input">Usuário:</label>
+                    <input type="text" id="username-input" required>
+                </div>
+                <div>
+                    <label for="password-input">Senha:</label>
+                    <input type="password" id="password-input" required>
+                </div>
+                <button type="submit" id="btn-login">Entrar</button>
+            </form>
+            <p id="login-message" class="hidden px-4 py-2 mt-2 rounded-lg text-sm"></p>
         </section>
 
-        <section id="profissional-selecao" style="display:none;"> 
-            <h2>2. Escolha o Profissional</h2>
-            <select id="select-profissional">
-                <option value="">Selecione um Profissional</option>
-            </select>
+        <section id="agendamento-area">
+            <section id="agendamento-form">
+                <h2>🗓️ Novo Agendamento</h2>
+                <p id="agendamento-status" class="hidden px-4 py-2 mb-4 rounded-lg text-sm"></p>
+                <form id="formAgendamento">
+                    <div class="grid">
+                        <div>
+                            <label for="agendamento-cliente">Cliente:</label>
+                            <select id="agendamento-cliente" required>
+                                <option value="">Selecione o Cliente</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="agendamento-servico">Serviço:</label>
+                            <select id="agendamento-servico" required>
+                                <option value="">Selecione o Serviço</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="agendamento-funcionario">Profissional:</label>
+                            <select id="agendamento-funcionario" required>
+                                <option value="">Selecione o Profissional</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div>
+                            <label for="agendamento-data">Data:</label>
+                            <input type="date" id="agendamento-data" required>
+                        </div>
+                        <div>
+                            <label for="agendamento-hora">Hora:</label>
+                            <input type="time" id="agendamento-hora" required>
+                        </div>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-500">Duração estimada do serviço: <strong id="duracao-estimada">0 min</strong>. Preço: <strong id="preco-estimado">R$ 0,00</strong></p>
+                    <button type="submit" class="bg-green-600">Finalizar Agendamento</button>
+                </form>
+            </section>
         </section>
 
-        <section id="horario-selecao" style="display:none;">
-            <h2>3. Escolha a Data e Hora</h2>
-            <input type="date" id="input-data">
-            <div id="horarios-disponiveis">
+        <section id="gerenciamento-container" class="hidden"> 
+            <div class="flex justify-between items-center mb-4">
+                <h2>⚙️ Gerenciamento de Entidades</h2>
+                <button id="btn-logout" class="py-1 px-3 bg-red-500 text-white rounded">Sair</button>
+            </div>
+            
+            <p id="status-gerenciamento" class="hidden px-4 py-2 mb-4 rounded-lg text-sm"></p>
+            
+            <ul class="nav-tabs">
+                <li class="nav-item active" data-tab="clients">Clientes</li>
+                <li class="nav-item" data-tab="services">Serviços</li>
+                <li class="nav-item" data-tab="employees">Funcionários</li>
+                <li class="nav-item" data-tab="availability">Disponibilidade</li>
+                <li class="nav-item" data-tab="agenda">Agenda do Dia</li> </ul>
+
+            <div class="tab-content">
+                
+                <div id="clients-tab" class="tab-pane active">
+                    <h3>👥 Gerenciar Clientes (CRUD)</h3>
+                    <div class="form-crud">
+                        <h4>Criar/Atualizar Cliente</h4>
+                        <form id="client-form">
+                            <input type="hidden" id="client-id" value="">
+                            <label for="client-nome">Nome:</label>
+                            <input type="text" id="client-nome" required>
+                            <label for="client-telefone">Telefone:</label>
+                            <input type="text" id="client-telefone" placeholder="(99) 99999-9999">
+                            <div class="flex mt-2">
+                                <button type="submit">Salvar Cliente</button>
+                                <button type="button" onclick="resetClientForm()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <h4>Lista de Clientes</h4>
+                    <table id="clients-table">
+                        <thead>
+                            <tr><th>ID</th><th>Nome</th><th>Telefone</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div id="services-tab" class="tab-pane">
+                    <h3>✂️ Gerenciar Serviços (CRUD)</h3>
+                    <div class="form-crud">
+                        <h4>Criar/Atualizar Serviço</h4>
+                        <form id="service-form">
+                            <input type="hidden" id="service-id" value="">
+                            <label for="service-nome">Nome do Serviço:</label>
+                            <input type="text" id="service-nome" required>
+                            <label for="service-duracao">Duração (minutos):</label>
+                            <input type="number" id="service-duracao" min="5" step="5" required>
+                            <label for="service-preco">Preço (R$):</label>
+                            <input type="number" id="service-preco" min="0" step="0.01" required>
+                            <div class="flex mt-2">
+                                <button type="submit">Salvar Serviço</button>
+                                <button type="button" onclick="resetServiceForm()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <h4>Lista de Serviços</h4>
+                    <table id="services-table">
+                        <thead>
+                            <tr><th>ID</th><th>Serviço</th><th>Duração (min)</th><th>Preço (R$)</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                
+                <div id="employees-tab" class="tab-pane">
+                    <h3>👩‍💼 Gerenciar Funcionários (CRUD)</h3>
+                    <div class="form-crud">
+                        <h4>Criar/Atualizar Funcionário</h4>
+                        <form id="employee-form">
+                            <input type="hidden" id="employee-id" value="">
+                            <label for="employee-nome">Nome:</label>
+                            <input type="text" id="employee-nome" required>
+                            <label for="employee-cargo">Cargo:</label>
+                            <input type="text" id="employee-cargo" required>
+                            <label for="employee-telefone">Telefone:</label>
+                            <input type="text" id="employee-telefone" placeholder="(99) 99999-9999">
+                            <div class="flex mt-2">
+                                <button type="submit">Salvar Funcionário</button>
+                                <button type="button" onclick="resetEmployeeForm()">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <h4>Lista de Funcionários</h4>
+                    <table id="employees-table">
+                        <thead>
+                            <tr><th>ID</th><th>Nome</th><th>Cargo</th><th>Telefone</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+                <div id="availability-tab" class="tab-pane">
+                    <h3>⏰ Gerenciar Disponibilidade Semanal</h3>
+                    <p id="availability-status" class="hidden px-4 py-2 mb-4 rounded-lg text-sm"></p>
+                    
+                    <div class="form-crud">
+                        <h4>Selecionar Funcionário</h4>
+                        <label for="availability-employee-select">Funcionário:</label>
+                        <select id="availability-employee-select" required>
+                            <option value="">Selecione um Profissional</option>
+                            </select>
+                    </div>
+
+                    <div id="availability-config-area" class="form-crud hidden">
+                        <h4>Configurar Horários Semanais</h4>
+                        <p class="text-sm text-gray-500 mb-4">Defina o horário de trabalho de Entrada e Saída para cada dia da semana.</p>
+                        
+                        <form id="availability-form">
+                            <table id="availability-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-left">Dia da Semana</th>
+                                        <th>Trabalha?</th>
+                                        <th>Hora de Entrada</th>
+                                        <th>Hora de Saída</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    </tbody>
+                            </table>
+                            <div class="mt-4 text-right">
+                                <button type="submit">Salvar Disponibilidade</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="agenda-tab" class="tab-pane">
+                    <h3>🗓️ Agenda do Dia</h3>
+                    <div class="flex gap-4 mb-4 items-center">
+                        <label for="filtro-data">Filtrar por Data:</label>
+                        <input type="date" id="filtro-data" class="w-auto">
+                        <button id="btn-recarregar" class="py-1 px-3 bg-blue-500 text-white rounded">Recarregar</button>
+                    </div>
+                    <div id="lista-agendamentos" class="space-y-4">
+                    </div>
+                    <p id="msg-vazio" class="hidden text-center text-gray-500 mt-8">Nenhum agendamento encontrado para esta data.</p>
+                </div>
+
             </div>
         </section>
-        
-        <section id="cliente-dados" style="display:none;">
-            <h2>4. Seus Dados</h2>
-            <form id="form-agendamento">
-                <input type="text" id="nome-cliente" placeholder="Seu Nome Completo" required>
-                <input type="tel" id="telefone-cliente" placeholder="Seu Telefone" required>
-                <input type="email" id="email-cliente" placeholder="Seu E-mail (Opcional)">
-                <button type="submit">Confirmar Agendamento</button>
-            </form>
-        </section>
+
     </main>
 
     <footer>
